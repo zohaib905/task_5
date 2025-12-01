@@ -19,6 +19,30 @@ def update_movie(session: Session, movie: Movie):
     session.commit()
     session.refresh(movie)
     return movie
+# Update movie
+def update_movie(session: Session, movie: Movie):
+    session.add(movie)
+    session.commit()
+    session.refresh(movie)
+    return movie
+
+# Delete movie
+def delete_movie(session: Session, movie: Movie):
+    session.delete(movie)
+    session.commit()
+    return {"detail": "Movie deleted successfully"}
+
+# ----- User CRUD -----
+def update_user(session: Session, user: User):
+    session.add(user)
+    session.commit()
+    session.refresh(user)
+    return user  # OK
+def delete_user(session: Session, user: User):
+    session.delete(user)
+    session.commit()
+    return {"detail": "User deleted successfully"}# or just None, since object is deleted
+
 
 def delete_movie(session: Session, movie: Movie):
     session.delete(movie)
@@ -30,6 +54,17 @@ def create_user(session: Session, user: User):
     session.commit()
     session.refresh(user)
     return user
+def delete_all_users(session: Session):
+    users = session.exec(select(User)).all()
+    for user in users:
+        session.delete(user)
+    session.commit()
+    return {"detail": "All users deleted successfully"}
+
+
+def get_user(session: Session, user_id: int):
+    return session.get(User, user_id)
+
 
 # ----- Streams & Ratings -----
 def record_stream(session: Session, stream: Stream):
